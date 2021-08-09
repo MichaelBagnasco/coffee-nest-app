@@ -5,20 +5,29 @@ import { AppService } from './app.service';
 import { CoffeesModule } from './coffees/coffees.module';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { DatabaseModule } from './database/database.module';
+import { ConfigModule } from '@nestjs/config';
+import * as Joi from 'joi';
 
 @Module({
   imports: [
-    CoffeesModule,
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      validationSchema: Joi.object({
+        DATABASE_HOST: Joi.required(),
+        DATABASE_PORT: Joi.number().default(5432),
+      }),
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres', // type of our database
-      host: 'localhost', // database host
-      port: 5432, // database port
-      username: 'postgres', // username
-      password: 'pass123', // user password
-      database: 'postgres', // name of our database,
+      username: process.env.DATABASE_USER,
+      host: process.env.DATABASE_HOST,
+      port: +process.env.DATABASE_PORT,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       autoLoadEntities: true, // models will be loaded automatically
       synchronize: true, // your entities will be synced with the database(recommended: disable in prod)
     }),
+    CoffeesModule,
     CoffeeRatingModule,
     DatabaseModule,
   ],
@@ -26,3 +35,5 @@ import { DatabaseModule } from './database/database.module';
   providers: [AppService],
 })
 export class AppModule {}
+
+console.log(process.env.DATABASE_USER);

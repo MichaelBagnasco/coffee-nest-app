@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseModule } from 'src/database/database.module';
 import { Event } from 'src/events/entities/event.entity';
@@ -11,6 +12,7 @@ import { Flavor } from './entities/flavor.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Coffee, Flavor, Event]),
+    ConfigModule,
     DatabaseModule.register({
       type: 'postgres',
       host: 'localhost',
