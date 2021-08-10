@@ -8,3 +8,5 @@ services:
       - 27017:27017
     environment: #env variables to pass into the container
        MONGODB_DATABASE: nest-course
+       MONGO_INITDB_ROOT_USERNAME: root
+       MONGO_INITDB_ROOT_PASSWORD: example
