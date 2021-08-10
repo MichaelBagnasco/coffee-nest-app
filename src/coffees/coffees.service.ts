@@ -14,7 +14,6 @@ export class CoffeesService {
 
   public findAll(paginationQuery: PaginationQueryDto): Promise<Coffee[]> {
     const { limit, offset } = paginationQuery;
-    console.log(paginationQuery);
     return this.coffeeModel.find().skip(offset).limit(limit).exec();
   }
 

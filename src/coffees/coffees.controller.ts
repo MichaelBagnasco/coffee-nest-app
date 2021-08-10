@@ -22,7 +22,6 @@ export class CoffeesController {
 
   @Get()
   findAll(@Query() paginationQuery: PaginationQueryDto) {
-    console.log(paginationQuery);
     return this.coffeesService.findAll(paginationQuery);
   }
 
