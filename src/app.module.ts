@@ -12,17 +12,17 @@ import appConfig from './config/app.config';
       load: [appConfig],
     }),
     CoffeesModule,
-    MongooseModule.forRoot(
-      `${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}`,
-      {
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
         useCreateIndex: true,
+        uri: `${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}`,
         dbName: process.env.DATABASE_NAME,
         auth: {
           user: process.env.DATABASE_USER,
           password: process.env.DATABASE_PASSWORD,
         },
-      },
-    ),
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
